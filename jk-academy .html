@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>JK Academy — Excellence in Accountancy</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;0,900;1,700&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500;9..40,600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet"/>
+<style>
+:root{--navy:#0b1120;--gold:#c9a84c;--gold-light:#e8c96d;--text:#e2d9c8;--muted:#6b7280}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{font-family:'DM Sans',sans-serif;background:var(--navy);color:var(--text);overflow-x:hidden}
+body::before{content:'';position:fixed;inset:0;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.035'/%3E%3C/svg%3E");pointer-events:none;z-index:0;opacity:.6}
+.fd{font-family:'Playfair Display',serif}
+.fm{font-family:'DM Mono',monospace}
+.gold-text{background:linear-gradient(135deg,#c9a84c 0%,#f5d87a 50%,#c9a84c 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+.shimmer{background:linear-gradient(90deg,#c9a84c 0%,#fff6c0 25%,#c9a84c 50%,#fff6c0 75%,#c9a84c 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:shimmer 4s linear infinite}
+@keyframes shimmer{from{background-position:-200% center}to{background-position:200% center}}
+.gline{height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent)}
+.gborder{border:1px solid rgba(201,168,76,.18)}
+.gborder-hi{border:1px solid rgba(201,168,76,.5)}
+.card{background:rgba(255,255,255,.03);backdrop-filter:blur(8px);border:1px solid rgba(201,168,76,.12);transition:all .35s ease}
+.card:hover{background:rgba(255,255,255,.05);border-color:rgba(201,168,76,.28);transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.28)}
+.btn-g{background:linear-gradient(135deg,#c9a84c,#e8c96d);color:#0b1120;font-weight:600;letter-spacing:.04em;transition:all .3s ease}
+.btn-g:hover{transform:translateY(-2px);box-shadow:0 8px 26px rgba(201,168,76,.4)}
+.btn-o{border:1px solid rgba(201,168,76,.45);color:var(--gold-light);transition:all .3s ease}
+.btn-o:hover{background:rgba(201,168,76,.1);border-color:var(--gold);transform:translateY(-2px)}
+.pill{background:linear-gradient(135deg,rgba(201,168,76,.12),rgba(201,168,76,.04));border:1px solid rgba(201,168,76,.35);border-radius:999px}
+nav{position:fixed;top:0;width:100%;z-index:100;backdrop-filter:blur(18px);background:rgba(11,17,32,.9);border-bottom:1px solid rgba(201,168,76,.12);transition:box-shadow .3s}
+.hgrid{position:absolute;inset:0;background-image:linear-gradient(rgba(201,168,76,.04) 1px,transparent 1px),linear-gradient(90deg,rgba(201,168,76,.04) 1px,transparent 1px);background-size:60px 60px;pointer-events:none}
+@keyframes fadeUp{from{opacity:0;transform:translateY(26px)}to{opacity:1;transform:translateY(0)}}
+@keyframes floatY{0%,100%{transform:translateY(0)}50%{transform:translateY(-11px)}}
+@keyframes pring{0%,100%{box-shadow:0 0 0 0 rgba(201,168,76,.4)}70%{box-shadow:0 0 0 8px rgba(201,168,76,0)}}
+.a1{animation:fadeUp .7s ease both}
+.a2{animation:fadeUp .7s .15s ease both}
+.a3{animation:fadeUp .7s .3s ease both}
+.a4{animation:fadeUp .7s .45s ease both}
+.float{animation:floatY 4s ease-in-out infinite}
+.pring{animation:pring 2s ease infinite}
+.reveal{opacity:0;transform:translateY(20px);transition:opacity .65s ease,transform .65s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+.acc-body{max-height:0;overflow:hidden;transition:max-height .4s ease}
+.acc-body.open{max-height:360px}
+#mob-menu{display:none;flex-direction:column;gap:.5rem;padding:1.25rem 1.5rem;border-top:1px solid rgba(201,168,76,.1)}
+#mob-menu.open{display:flex}
+.finput{background:rgba(255,255,255,.04);border:1px solid rgba(201,168,76,.18);color:var(--text);outline:none;transition:border-color .3s,background .3s}
+.finput:focus{border-color:var(--gold);background:rgba(201,168,76,.05)}
+.finput::placeholder{color:#4b5563}
+.tl{display:flex;align-items:center;justify-content:space-between;padding:.8rem .6rem;border-bottom:1px solid rgba(201,168,76,.07);transition:background .2s;border-radius:.4rem}
+.tl:last-child{border-bottom:none}
+.tl:hover{background:rgba(255,255,255,.025)}
+#cal-modal{display:none;position:fixed;inset:0;z-index:200;align-items:center;justify-content:center;padding:1rem}
+#cal-modal.open{display:flex}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="nav">
+  <div class="max-w-7xl mx-auto px-5 flex items-center justify-between h-16">
+    <a href="#top" class="flex items-center gap-3">
+      <div class="w-9 h-9 rounded-lg btn-g flex items-center justify-center fd font-bold text-lg text-[#0b1120]">JK</div>
+      <div>
+        <p class="fd font-bold text-white text-sm leading-tight">JK Academy</p>
+        <p class="fm text-[9px] tracking-widest text-[#c9a84c] uppercase">Accountancy Excellence</p>
+      </div>
+    </a>
+    <div class="hidden md:flex items-center gap-6">
+      <a href="#about"      class="text-sm text-gray-400 hover:text-[#e8c96d] transition-colors">About</a>
+      <a href="#features"   class="text-sm text-gray-400 hover:text-[#e8c96d] transition-colors">Why Us</a>
+      <a href="#schedule"   class="text-sm text-gray-400 hover:text-[#e8c96d] transition-colors">Schedule</a>
+      <a href="#instructor" class="text-sm text-gray-400 hover:text-[#e8c96d] transition-colors">Instructor</a>
+      <a href="#syllabus"   class="text-sm text-gray-400 hover:text-[#e8c96d] transition-colors">Syllabus</a>
+      <a href="#refund"     class="text-sm text-gray-400 hover:text-[#e8c96d] transition-colors">Refund</a>
+      <a href="#enroll"     class="btn-g px-5 py-2 rounded-lg text-sm">Enrol Now</a>
+    </div>
+    <button class="md:hidden p-2 flex flex-col gap-1.5" onclick="toggleMob()">
+      <span class="w-5 h-0.5 bg-[#c9a84c] block"></span>
+      <span class="w-5 h-0.5 bg-[#c9a84c] block"></span>
+      <span class="w-5 h-0.5 bg-[#c9a84c] block"></span>
+    </button>
+  </div>
+  <div id="mob-menu">
+    <a href="#about"      class="text-sm text-gray-300 py-2 border-b border-white/5" onclick="toggleMob()">About</a>
+    <a href="#features"   class="text-sm text-gray-300 py-2 border-b border-white/5" onclick="toggleMob()">Why Us</a>
+    <a href="#schedule"   class="text-sm text-gray-300 py-2 border-b border-white/5" onclick="toggleMob()">Schedule</a>
+    <a href="#instructor" class="text-sm text-gray-300 py-2 border-b border-white/5" onclick="toggleMob()">Instructor</a>
+    <a href="#syllabus"   class="text-sm text-gray-300 py-2 border-b border-white/5" onclick="toggleMob()">Syllabus</a>
+    <a href="#refund"     class="text-sm text-gray-300 py-2 border-b border-white/5" onclick="toggleMob()">Refund</a>
+    <a href="#enroll"     class="btn-g px-5 py-2.5 rounded-lg text-sm text-center mt-1" onclick="toggleMob()">Enrol Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="top" style="min-height:100vh;background:radial-gradient(ellipse 80% 55% at 50% -5%,rgba(201,168,76,.1) 0%,transparent 70%),var(--navy);position:relative;display:flex;align-items:center">
+  <div class="hgrid"></div>
+  <div style="position:absolute;width:380px;height:380px;border-radius:50%;background:#c9a84c;filter:blur(90px);opacity:.055;top:60px;left:-90px;pointer-events:none"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-5 pt-24 pb-16 w-full">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div>
+        <div class="inline-flex items-center gap-2 pill px-4 py-1.5 mb-7 a1">
+          <span class="w-2 h-2 rounded-full bg-[#c9a84c] inline-block pring"></span>
+          <span class="fm text-xs text-[#e8c96d] tracking-widest uppercase">Matriculation Syllabus · Tamil Nadu</span>
+        </div>
+        <h1 class="fd font-bold leading-[1.06] mb-6 a2" style="font-size:clamp(2.8rem,6vw,4.5rem)">
+          Master<br/><span class="shimmer">Accountancy</span><br/>
+          <span class="text-white/80" style="font-size:clamp(2rem,4.5vw,3.2rem)">Class 11 &amp; 12</span>
+        </h1>
+        <p class="text-gray-400 text-lg leading-relaxed mb-8 max-w-lg a3">
+          Sunday-only intensive coaching built for the TN Matriculation syllabus.
+          Structured, expert-led, and backed by a <strong class="text-[#e8c96d]">100% commitment guarantee</strong>.
+        </p>
+        <div class="flex flex-wrap gap-4 a4">
+          <a href="#enroll" class="btn-g px-7 py-3.5 rounded-xl text-sm inline-flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"/></svg>
+            Start Learning Today
+          </a>
+          <button onclick="openCal()" class="btn-o px-7 py-3.5 rounded-xl text-sm inline-flex items-center gap-2">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"/></svg>
+            View Schedule
+          </button>
+        </div>
+        <div class="flex flex-wrap gap-8 mt-12 pt-8 border-t border-white/5 a4">
+          <div><p class="fd font-black gold-text" style="font-size:2.5rem;line-height:1">5h</p><p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Per Session</p></div>
+          <div><p class="fd font-black gold-text" style="font-size:2.5rem;line-height:1">1</p><p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Day/Week</p></div>
+          <div><p class="fd font-black gold-text" style="font-size:2.5rem;line-height:1">100%</p><p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Refund Promise</p></div>
+          <div><p class="fd font-black gold-text" style="font-size:2.5rem;line-height:1">11–12</p><p class="text-xs text-gray-500 mt-1 uppercase tracking-wider">Classes</p></div>
+        </div>
+      </div>
+      <!-- Floating card -->
+      <div class="hidden lg:flex justify-center items-center relative">
+        <div class="float relative">
+          <div class="card rounded-2xl p-8 w-80">
+            <div class="flex items-center gap-3 mb-6">
+              <div class="w-10 h-10 rounded-xl btn-g flex items-center justify-center fd font-bold text-[#0b1120]">JK</div>
+              <div><p class="font-semibold text-white text-sm">JK Academy</p><p class="text-xs text-[#c9a84c]">Accountancy Batch 2026</p></div>
+            </div>
+            <div class="space-y-3 mb-6">
+              <div class="flex items-center justify-between bg-white/[0.04] rounded-lg p-3">
+                <div class="flex items-center gap-2"><span class="text-lg">📅</span><span class="text-sm font-medium">Sunday</span></div>
+                <span class="fm text-xs text-[#c9a84c]">9 AM – 2 PM</span>
+              </div>
+              <div class="flex items-center justify-between bg-white/[0.04] rounded-lg p-3">
+                <div class="flex items-center gap-2"><span class="text-lg">☕</span><span class="text-sm text-gray-400">Breaks Included</span></div>
+                <span class="fm text-xs text-[#c9a84c]">5 hrs total</span>
+              </div>
+            </div>
+            <div class="pill px-4 py-2 flex items-center gap-2">
+              <svg class="w-4 h-4 text-[#c9a84c] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+              <span class="text-xs text-[#e8c96d] font-medium">Refund Guarantee Active</span>
+            </div>
+          </div>
+          <div class="absolute -top-4 -right-6 card rounded-xl px-4 py-2.5 gborder-hi shadow-xl"><span class="text-[#c9a84c]">✓</span> <span class="text-white text-xs">Commitment-first approach</span></div>
+          <div class="absolute -bottom-4 -left-6 card rounded-xl px-4 py-2.5 gborder-hi shadow-xl"><p class="text-[#c9a84c] fm text-xs font-bold">Matric Syllabus</p><p class="text-white/60 text-[10px]">Fully aligned · Updated 2026</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gline"></div>
+
+<!-- ABOUT -->
+<section id="about" class="py-24 px-5">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid lg:grid-cols-2 gap-16 items-center">
+      <div class="reveal">
+        <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">About JK Academy</p>
+        <h2 class="fd text-4xl md:text-5xl font-bold leading-tight mb-6">Where Dedication<br/><span class="gold-text">Meets Results</span></h2>
+        <p class="text-gray-400 leading-relaxed mb-5">JK Academy is a specialised coaching institution focused exclusively on <strong class="text-white">Accountancy for Class 11 &amp; 12</strong> under the Tamil Nadu State Board Matriculation syllabus. Batch sizes are kept small so every student receives personal attention.</p>
+        <p class="text-gray-400 leading-relaxed mb-8">Our method blends conceptual clarity with practice-heavy problem solving — students don't just pass, they <em class="text-[#e8c96d]">understand</em> and <em class="text-[#e8c96d]">excel</em>.</p>
+        <div class="grid grid-cols-2 gap-4">
+          <div class="card rounded-xl p-5"><p class="fd text-3xl font-bold gold-text mb-1">95%+</p><p class="text-xs text-gray-500">Students score above 85 marks</p></div>
+          <div class="card rounded-xl p-5"><p class="fd text-3xl font-bold gold-text mb-1">5h</p><p class="text-xs text-gray-500">Weekly teaching every Sunday</p></div>
+        </div>
+      </div>
+      <div class="reveal space-y-4">
+        <div class="card rounded-xl p-6 flex gap-5 items-start"><div class="w-11 h-11 rounded-lg bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0 text-2xl">📚</div><div><p class="font-semibold text-white mb-1">Syllabus-Perfect Content</p><p class="text-sm text-gray-400">Every topic mapped 1:1 to the TN Matriculation Board Samacheer Kalvi curriculum for Class 11 &amp; 12.</p></div></div>
+        <div class="card rounded-xl p-6 flex gap-5 items-start"><div class="w-11 h-11 rounded-lg bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0 text-2xl">🎯</div><div><p class="font-semibold text-white mb-1">Sunday-Only Model</p><p class="text-sm text-gray-400">One focused day each week — 5 hours with structured breaks — all weekdays remain free for school.</p></div></div>
+        <div class="card rounded-xl p-6 flex gap-5 items-start"><div class="w-11 h-11 rounded-lg bg-[#c9a84c]/10 flex items-center justify-center flex-shrink-0 text-2xl">🤝</div><div><p class="font-semibold text-white mb-1">Word-Backed Guarantee</p><p class="text-sm text-gray-400">If we don't honour our commitments, you get a full refund — simple, transparent, no questions asked.</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- WHY US -->
+<section id="features" class="py-24 px-5">
+  <div class="max-w-7xl mx-auto">
+    <div class="text-center max-w-2xl mx-auto mb-16 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Why Choose JK Academy</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold mb-4">Built Differently,<br/><span class="gold-text">For a Reason</span></h2>
+      <p class="text-gray-400">Every element of JK Academy is designed around one goal — your board exam success.</p>
+    </div>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="card rounded-2xl p-7 reveal"><div class="w-12 h-12 rounded-xl bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center text-2xl mb-5">📖</div><h3 class="font-semibold text-white text-lg mb-3">Complete Syllabus Coverage</h3><p class="text-gray-400 text-sm leading-relaxed">Every unit of Class 11 &amp; 12 Accountancy — from Basic Accounting to Final Accounts — taught methodically with no chapter left behind.</p></div>
+      <div class="card rounded-2xl p-7 reveal"><div class="w-12 h-12 rounded-xl bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center text-2xl mb-5">⏱️</div><h3 class="font-semibold text-white text-lg mb-3">5-Hour Sunday Sessions</h3><p class="text-gray-400 text-sm leading-relaxed">Each Sunday runs 9 AM–2 PM with structured breaks — deep enough for real progress, paced so students stay fully engaged.</p></div>
+      <div class="card rounded-2xl p-7 reveal"><div class="w-12 h-12 rounded-xl bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center text-2xl mb-5">📝</div><h3 class="font-semibold text-white text-lg mb-3">Weekly Assessments</h3><p class="text-gray-400 text-sm leading-relaxed">Every session ends with a chapter test. Mock board papers simulate real exam conditions to sharpen speed and accuracy.</p></div>
+      <div class="card rounded-2xl p-7 reveal"><div class="w-12 h-12 rounded-xl bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center text-2xl mb-5">👨‍🏫</div><h3 class="font-semibold text-white text-lg mb-3">Expert Faculty</h3><p class="text-gray-400 text-sm leading-relaxed">Taught by Karthik J — M.Com graduate with 3 years of real-world Accounts Executive experience, bringing practical depth to every concept.</p></div>
+      <div class="card rounded-2xl p-7 reveal"><div class="w-12 h-12 rounded-xl bg-[#c9a84c]/10 border border-[#c9a84c]/20 flex items-center justify-center text-2xl mb-5">📊</div><h3 class="font-semibold text-white text-lg mb-3">Progress Tracking</h3><p class="text-gray-400 text-sm leading-relaxed">Individual assessment reports shared with students and parents after every test cycle, keeping everyone aligned and motivated.</p></div>
+      <div class="card rounded-2xl p-7 reveal" style="border-color:rgba(201,168,76,.25)"><div class="w-12 h-12 rounded-xl bg-[#c9a84c]/20 border border-[#c9a84c]/40 flex items-center justify-center text-2xl mb-5">🛡️</div><h3 class="font-semibold text-white text-lg mb-3">Refund Guarantee</h3><p class="text-gray-400 text-sm leading-relaxed">Our promises are binding. If we fail on any stated commitment, you receive a full fee refund — no questions asked.</p><span class="inline-block mt-3 fm text-xs text-[#c9a84c] border border-[#c9a84c]/30 px-2 py-0.5 rounded">Zero-Risk Enrolment</span></div>
+    </div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- SCHEDULE -->
+<section id="schedule" class="py-24 px-5">
+  <div class="max-w-4xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Class Timings</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold mb-4">Sunday Schedule<br/><span class="gold-text">9:00 AM – 2:00 PM</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">One immersive Sunday per week — structured breaks included — building deep retention without touching a single school day.</p>
+    </div>
+    <div class="card rounded-2xl overflow-hidden mb-8 reveal" style="border-color:rgba(201,168,76,.25)">
+      <div class="flex items-center gap-3 px-6 py-4 border-b border-[#c9a84c]/15" style="background:rgba(201,168,76,.08)">
+        <span class="text-2xl">🗓️</span>
+        <div><p class="fd font-bold text-white text-xl">Every Sunday</p><p class="fm text-xs text-[#c9a84c]">9:00 AM – 2:00 PM · Breaks Included</p></div>
+        <a href="https://meet.google.com/qtb-sxrf-sfh" target="_blank" class="ml-auto btn-g px-4 py-2 rounded-lg text-xs font-semibold hidden sm:inline-flex items-center gap-1.5">
+          <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+          Join Meet
+        </a>
+      </div>
+      <div class="p-6">
+        <div class="tl"><span class="text-sm text-gray-200 flex items-center gap-2"><span class="text-[#c9a84c] font-bold">▸</span> Session Start</span><span class="fm text-sm text-white font-semibold">9:00 AM</span></div>
+        <div class="tl"><span class="text-sm text-gray-400 flex items-center gap-2"><span class="text-amber-400">☕</span> Short Break</span><span class="fm text-sm text-gray-400">10:30 AM</span></div>
+        <div class="tl"><span class="text-sm text-gray-200 flex items-center gap-2"><span class="text-[#c9a84c] font-bold">▸</span> Session Continues</span><span class="fm text-sm text-white font-semibold">10:45 AM</span></div>
+        <div class="tl"><span class="text-sm text-gray-400 flex items-center gap-2"><span class="text-amber-400">🍱</span> Lunch Break</span><span class="fm text-sm text-gray-400">12:30 PM</span></div>
+        <div class="tl"><span class="text-sm text-gray-200 flex items-center gap-2"><span class="text-[#c9a84c] font-bold">▸</span> Revision &amp; Weekly Assessment</span><span class="fm text-sm text-white font-semibold">1:00 PM</span></div>
+        <div class="tl"><span class="text-sm text-gray-200 flex items-center gap-2"><span class="text-[#c9a84c] font-bold">▸</span> Session Ends</span><span class="fm text-sm text-white font-semibold">2:00 PM</span></div>
+        <div class="mt-5 pt-4 border-t border-white/5 flex items-center gap-2">
+          <svg class="w-4 h-4 text-[#c9a84c]" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm1-12a1 1 0 10-2 0v4a1 1 0 00.293.707l2.828 2.829a1 1 0 101.415-1.415L11 9.586V6z" clip-rule="evenodd"/></svg>
+          <span class="text-xs text-gray-500">~4 hrs active teaching + weekly assessment · Total: 5 hours every Sunday</span>
+        </div>
+      </div>
+    </div>
+    <div class="card rounded-xl p-6 flex flex-wrap gap-8 items-center justify-center text-center reveal">
+      <div><p class="fd text-3xl font-bold gold-text">5h</p><p class="text-xs text-gray-500 mt-1">Per Week</p></div>
+      <div class="w-px h-10 bg-white/10 hidden md:block"></div>
+      <div><p class="fd text-3xl font-bold gold-text">1</p><p class="text-xs text-gray-500 mt-1">Day / Week</p></div>
+      <div class="w-px h-10 bg-white/10 hidden md:block"></div>
+      <div><p class="fd text-3xl font-bold gold-text">Sunday</p><p class="text-xs text-gray-500 mt-1">Only</p></div>
+      <div class="w-px h-10 bg-white/10 hidden md:block"></div>
+      <div><p class="fd text-3xl font-bold gold-text">Google Meet</p><p class="text-xs text-gray-500 mt-1">Online · No Commute</p></div>
+    </div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- INSTRUCTOR -->
+<section id="instructor" class="py-24 px-5 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#c9a84c]/[0.02] to-transparent pointer-events-none"></div>
+  <div class="max-w-5xl mx-auto relative z-10">
+    <div class="text-center mb-14 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Your Instructor</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold">Meet <span class="gold-text">Karthik J</span></h2>
+    </div>
+    <div class="card rounded-3xl overflow-hidden reveal" style="border-color:rgba(201,168,76,.25)">
+      <div class="grid md:grid-cols-5">
+        <div class="md:col-span-2 flex flex-col items-center justify-center py-12 px-8 border-b md:border-b-0 md:border-r border-[#c9a84c]/10" style="background:linear-gradient(135deg,rgba(201,168,76,.1),rgba(30,45,74,.3))">
+          <div class="w-28 h-28 rounded-full flex items-center justify-center mb-5 fd font-black text-5xl text-[#0b1120]" style="background:linear-gradient(135deg,#c9a84c,#a07832);box-shadow:0 0 40px rgba(201,168,76,.3)">KJ</div>
+          <h3 class="fd text-2xl font-bold text-white mb-1">Karthik J</h3>
+          <p class="fm text-xs text-[#c9a84c] tracking-wider uppercase mb-6">Founder &amp; Lead Instructor</p>
+          <div class="flex flex-col gap-2 w-full max-w-[220px]">
+            <div class="pill px-3 py-2 flex items-center gap-2 justify-center"><span>🎓</span><span class="text-xs text-[#e8c96d] font-medium">M.Com Graduate</span></div>
+            <div class="pill px-3 py-2 flex items-center gap-2 justify-center"><span>💼</span><span class="text-xs text-[#e8c96d] font-medium">3 Yrs Industry Experience</span></div>
+          </div>
+        </div>
+        <div class="md:col-span-3 p-8 md:p-10">
+          <p class="text-gray-300 leading-relaxed mb-5">Karthik J is a <strong class="text-white">Master of Commerce (M.Com)</strong> graduate with <strong class="text-white">3 years of hands-on experience</strong> as an Accounts Executive in the industry. This real-world exposure sets his teaching apart — students don't just learn theory, they learn <em class="text-[#e8c96d]">how accounts actually work</em> in practice.</p>
+          <p class="text-gray-400 leading-relaxed mb-8">Passionate about making Accountancy accessible, Karthik founded JK Academy to offer structured, affordable, and results-driven coaching exclusively for Class 11 &amp; 12 students under the Tamil Nadu Matriculation syllabus.</p>
+          <div class="grid grid-cols-2 gap-4 mb-8">
+            <div class="rounded-xl p-4 text-center" style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1)"><p class="fd text-2xl font-bold gold-text mb-1">M.Com</p><p class="text-xs text-gray-500">Master of Commerce</p></div>
+            <div class="rounded-xl p-4 text-center" style="background:rgba(255,255,255,.03);border:1px solid rgba(201,168,76,.1)"><p class="fd text-2xl font-bold gold-text mb-1">3 Yrs</p><p class="text-xs text-gray-500">Accounts Executive</p></div>
+          </div>
+          <div class="flex flex-wrap gap-3">
+            <a href="mailto:karthikj1198@gmail.com" class="btn-g px-5 py-2.5 rounded-lg text-sm inline-flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+              Email Karthik
+            </a>
+            <a href="https://meet.google.com/qtb-sxrf-sfh" target="_blank" class="btn-o px-5 py-2.5 rounded-lg text-sm inline-flex items-center gap-2">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+              Join Google Meet
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- SYLLABUS -->
+<section id="syllabus" class="py-24 px-5">
+  <div class="max-w-5xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Samacheer Kalvi · TN Board</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold mb-4">Complete <span class="gold-text">Syllabus</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">Every chapter of the Tamil Nadu Matriculation Accountancy curriculum — taught, practised, and mastered.</p>
+    </div>
+    <div class="flex justify-center mb-10 reveal">
+      <div class="inline-flex card rounded-xl p-1 gborder">
+        <button id="tab11" onclick="switchTab(11)" class="px-7 py-2.5 rounded-lg text-sm font-semibold transition-all btn-g">Class 11</button>
+        <button id="tab12" onclick="switchTab(12)" class="px-7 py-2.5 rounded-lg text-sm font-semibold transition-all text-gray-400 hover:text-white">Class 12</button>
+      </div>
+    </div>
+    <!-- class 11 -->
+    <div id="syl11" class="card rounded-2xl overflow-hidden reveal">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-[#c9a84c]/15" style="background:rgba(201,168,76,.08)">
+        <div class="flex items-center gap-3"><span class="text-2xl">📗</span><div><p class="fd font-bold text-white text-lg">Class 11 — Accountancy</p><p class="fm text-xs text-[#c9a84c]">14 Chapters · Samacheer Kalvi</p></div></div>
+        <span class="pill px-3 py-1 text-xs text-[#e8c96d] fm hidden sm:block">TN State Board</span>
+      </div>
+      <div class="p-5 grid sm:grid-cols-2 gap-2">
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span><div><p class="text-sm text-white font-medium">Introduction to Accounting</p><p class="text-xs text-gray-500 mt-0.5">Definition, scope, objectives &amp; uses</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span><div><p class="text-sm text-white font-medium">Conceptual Framework of Accounting</p><p class="text-xs text-gray-500 mt-0.5">Concepts, conventions &amp; principles</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span><div><p class="text-sm text-white font-medium">Books of Prime Entry</p><p class="text-xs text-gray-500 mt-0.5">Journal entries &amp; source documents</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">4</span><div><p class="text-sm text-white font-medium">Ledger</p><p class="text-xs text-gray-500 mt-0.5">Posting, balancing &amp; folio</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">5</span><div><p class="text-sm text-white font-medium">Trial Balance</p><p class="text-xs text-gray-500 mt-0.5">Preparation &amp; purposes</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">6</span><div><p class="text-sm text-white font-medium">Subsidiary Books – I</p><p class="text-xs text-gray-500 mt-0.5">Purchase, sales &amp; returns books</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">7</span><div><p class="text-sm text-white font-medium">Subsidiary Books – II</p><p class="text-xs text-gray-500 mt-0.5">Cash book, petty cash &amp; journal proper</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">8</span><div><p class="text-sm text-white font-medium">Bank Reconciliation Statement</p><p class="text-xs text-gray-500 mt-0.5">Causes of differences &amp; BRS preparation</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">9</span><div><p class="text-sm text-white font-medium">Rectification of Errors</p><p class="text-xs text-gray-500 mt-0.5">Types, detection &amp; correction</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">10</span><div><p class="text-sm text-white font-medium">Depreciation Accounting</p><p class="text-xs text-gray-500 mt-0.5">SLM, WDV &amp; accounting entries</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">11</span><div><p class="text-sm text-white font-medium">Capital and Revenue Transactions</p><p class="text-xs text-gray-500 mt-0.5">Receipts, expenditures &amp; distinction</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">12</span><div><p class="text-sm text-white font-medium">Final Accounts of Sole Proprietors – I</p><p class="text-xs text-gray-500 mt-0.5">Trading &amp; Profit and Loss account</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">13</span><div><p class="text-sm text-white font-medium">Final Accounts of Sole Proprietors – II</p><p class="text-xs text-gray-500 mt-0.5">Balance sheet with adjustments</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">14</span><div><p class="text-sm text-white font-medium">Computerised Accounting</p><p class="text-xs text-gray-500 mt-0.5">Introduction &amp; accounting software basics</p></div></div>
+      </div>
+    </div>
+    <!-- class 12 -->
+    <div id="syl12" class="card rounded-2xl overflow-hidden reveal hidden">
+      <div class="flex items-center justify-between px-6 py-4 border-b border-[#c9a84c]/15" style="background:rgba(201,168,76,.08)">
+        <div class="flex items-center gap-3"><span class="text-2xl">📘</span><div><p class="fd font-bold text-white text-lg">Class 12 — Accountancy</p><p class="fm text-xs text-[#c9a84c]">10 Chapters · Samacheer Kalvi</p></div></div>
+        <span class="pill px-3 py-1 text-xs text-[#e8c96d] fm hidden sm:block">TN State Board</span>
+      </div>
+      <div class="p-5 grid sm:grid-cols-2 gap-2">
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">1</span><div><p class="text-sm text-white font-medium">Accounts from Incomplete Records</p><p class="text-xs text-gray-500 mt-0.5">Single entry system &amp; statement of affairs</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">2</span><div><p class="text-sm text-white font-medium">Accounts of Not-for-Profit Organisation</p><p class="text-xs text-gray-500 mt-0.5">Receipts &amp; payments, income &amp; expenditure</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">3</span><div><p class="text-sm text-white font-medium">Accounts of Partnership Firms — Fundamentals</p><p class="text-xs text-gray-500 mt-0.5">Deed, capital &amp; P&amp;L appropriation</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">4</span><div><p class="text-sm text-white font-medium">Goodwill in Partnership Accounts</p><p class="text-xs text-gray-500 mt-0.5">Valuation methods &amp; accounting treatment</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">5</span><div><p class="text-sm text-white font-medium">Admission of a Partner</p><p class="text-xs text-gray-500 mt-0.5">Sacrificing ratio, goodwill &amp; revaluation</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">6</span><div><p class="text-sm text-white font-medium">Retirement and Death of a Partner</p><p class="text-xs text-gray-500 mt-0.5">Gaining ratio, settlement &amp; executor's accounts</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">7</span><div><p class="text-sm text-white font-medium">Company Accounts</p><p class="text-xs text-gray-500 mt-0.5">Share capital, debentures &amp; final accounts</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">8</span><div><p class="text-sm text-white font-medium">Financial Statement Analysis</p><p class="text-xs text-gray-500 mt-0.5">Comparative, common-size &amp; trend statements</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">9</span><div><p class="text-sm text-white font-medium">Ratio Analysis</p><p class="text-xs text-gray-500 mt-0.5">Liquidity, profitability &amp; solvency ratios</p></div></div>
+        <div class="flex items-start gap-3 p-3 rounded-lg hover:bg-white/[0.025] transition-colors"><span class="w-6 h-6 rounded-md bg-[#c9a84c]/15 text-[#c9a84c] text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">10</span><div><p class="text-sm text-white font-medium">Computerised Accounting — Tally</p><p class="text-xs text-gray-500 mt-0.5">Company creation, vouchers &amp; reports in Tally</p></div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- REFUND POLICY -->
+<section id="refund" class="py-24 px-5 relative">
+  <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#c9a84c]/[0.02] to-transparent pointer-events-none"></div>
+  <div class="max-w-4xl mx-auto relative z-10">
+    <div class="text-center mb-14 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Our Guarantee</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold mb-4">Refund Policy<br/><span class="gold-text">Our Word is Our Bond</span></h2>
+      <p class="text-gray-400 max-w-xl mx-auto">At JK Academy, commitments are not optional — they are contractual. If we fail to uphold any stated promise, your money comes back to you.</p>
+    </div>
+    <div class="space-y-4 reveal">
+      <div class="card rounded-xl p-6 flex gap-5 items-start" style="border-left:2px solid rgba(201,168,76,.55)">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-green-400 text-lg" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)">✓</div>
+        <div><p class="font-semibold text-white mb-1">Missed or Cancelled Classes</p><p class="text-sm text-gray-400">If a scheduled class is cancelled by the academy and not rescheduled within the same week, you are entitled to a pro-rated refund for that session.</p></div>
+      </div>
+      <div class="card rounded-xl p-6 flex gap-5 items-start" style="border-left:2px solid rgba(201,168,76,.55)">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-green-400 text-lg" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)">✓</div>
+        <div><p class="font-semibold text-white mb-1">Curriculum Not Delivered</p><p class="text-sm text-gray-400">If the syllabus coverage promised at enrolment is not completed by the agreed milestone dates, a partial or full refund will be issued accordingly.</p></div>
+      </div>
+      <div class="card rounded-xl p-6 flex gap-5 items-start" style="border-left:2px solid rgba(201,168,76,.55)">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-green-400 text-lg" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)">✓</div>
+        <div><p class="font-semibold text-white mb-1">Schedule Changed Without Notice</p><p class="text-sm text-gray-400">If class timings are altered significantly (more than 30 minutes) without 72-hour prior notice, the affected student may claim a full session refund.</p></div>
+      </div>
+      <div class="card rounded-xl p-6 flex gap-5 items-start" style="border-left:2px solid rgba(201,168,76,.55)">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-green-400 text-lg" style="background:rgba(34,197,94,.08);border:1px solid rgba(34,197,94,.2)">✓</div>
+        <div><p class="font-semibold text-white mb-1">Dissatisfied Within First 2 Classes</p><p class="text-sm text-gray-400">Not what you expected? Leave after your first or second class and receive a full refund of fees paid — no hassle, no hard feelings.</p></div>
+      </div>
+      <div class="card rounded-xl p-6 flex gap-5 items-start" style="border-left:2px solid rgba(245,158,11,.55)">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 text-amber-400 text-lg" style="background:rgba(245,158,11,.08);border:1px solid rgba(245,158,11,.2)">📊</div>
+        <div><p class="font-semibold text-white mb-1">Weekly Assessment Eligibility Condition</p><p class="text-sm text-gray-400">To qualify for any refund claim, students must have scored a minimum of <strong class="text-[#e8c96d]">90% in every weekly assessment</strong>. This ensures the policy protects genuinely committed students who demonstrate consistent effort throughout the course.</p></div>
+      </div>
+    </div>
+    <div class="mt-8 rounded-xl p-6 reveal" style="border:1px solid rgba(201,168,76,.28);background:rgba(201,168,76,.04)">
+      <div class="flex gap-4 items-start">
+        <svg class="w-5 h-5 text-[#c9a84c] flex-shrink-0 mt-0.5" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/></svg>
+        <div>
+          <p class="text-sm font-semibold text-[#e8c96d] mb-1">How to Claim a Refund</p>
+          <p class="text-sm text-gray-400">Email <a href="mailto:karthikj1198@gmail.com" class="text-[#c9a84c] hover:underline">karthikj1198@gmail.com</a> with your enrolment details and assessment records. All refund requests are processed within <strong class="text-white">7 working days</strong> via the original payment method.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- TESTIMONIALS -->
+<section class="py-24 px-5">
+  <div class="max-w-6xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Student Voices</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold">What Our Students <span class="gold-text">Say</span></h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6 reveal">
+      <div class="card rounded-2xl p-6"><div class="text-[#c9a84c] mb-4">★★★★★</div><p class="text-gray-300 text-sm leading-relaxed mb-5">"JK Academy changed how I look at accounts. The Sunday sessions fit perfectly with my school week and I scored 97 in my board exams!"</p><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full btn-g flex items-center justify-center fd font-bold text-[#0b1120] text-sm">P</div><div><p class="text-white text-sm font-medium">Priya S.</p><p class="text-gray-500 text-xs">Class 12 · 2024 Batch</p></div></div></div>
+      <div class="card rounded-2xl p-6"><div class="text-[#c9a84c] mb-4">★★★★★</div><p class="text-gray-300 text-sm leading-relaxed mb-5">"The refund policy shows they're serious about quality. Karthik sir explained every Journal entry with such clarity — I finally understand accounts!"</p><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full btn-g flex items-center justify-center fd font-bold text-[#0b1120] text-sm">A</div><div><p class="text-white text-sm font-medium">Arjun K.</p><p class="text-gray-500 text-xs">Class 11 · 2024 Batch</p></div></div></div>
+      <div class="card rounded-2xl p-6"><div class="text-[#c9a84c] mb-4">★★★★★</div><p class="text-gray-300 text-sm leading-relaxed mb-5">"My daughter was struggling with Final Accounts. After just 4 Sundays at JK Academy she's solving them independently. Worth every rupee!"</p><div class="flex items-center gap-3"><div class="w-9 h-9 rounded-full btn-g flex items-center justify-center fd font-bold text-[#0b1120] text-sm">M</div><div><p class="text-white text-sm font-medium">Meena R. (Parent)</p><p class="text-gray-500 text-xs">Class 12 Parent · 2024</p></div></div></div>
+    </div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- FAQ -->
+<section id="faq" class="py-24 px-5">
+  <div class="max-w-3xl mx-auto">
+    <div class="text-center mb-14 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Questions</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold">Frequently <span class="gold-text">Asked</span></h2>
+    </div>
+    <div class="space-y-3 reveal" id="faq-list"></div>
+  </div>
+</section>
+
+<div class="gline opacity-40"></div>
+
+<!-- ENROL -->
+<section id="enroll" class="py-24 px-5">
+  <div class="max-w-2xl mx-auto">
+    <div class="text-center mb-12 reveal">
+      <p class="fm text-xs text-[#c9a84c] tracking-widest uppercase mb-4">Join Us</p>
+      <h2 class="fd text-4xl md:text-5xl font-bold mb-4">Enrol <span class="gold-text">Today</span></h2>
+      <p class="text-gray-400">Seats are limited per batch to ensure personal attention. Secure yours now.</p>
+    </div>
+    <div class="card rounded-2xl p-8 reveal" style="border-color:rgba(201,168,76,.25)">
+      <div id="form-wrap">
+        <div class="grid md:grid-cols-2 gap-5 mb-5">
+          <div><label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-medium">Student Name *</label><input id="fn" type="text" class="finput w-full rounded-lg px-4 py-3 text-sm" placeholder="Full name"/></div>
+          <div><label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-medium">Class *</label><select id="fc" class="finput w-full rounded-lg px-4 py-3 text-sm cursor-pointer"><option value="" style="background:#0b1120">Select class</option><option value="11" style="background:#0b1120">Class 11</option><option value="12" style="background:#0b1120">Class 12</option></select></div>
+        </div>
+        <div class="grid md:grid-cols-2 gap-5 mb-5">
+          <div><label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-medium">Phone / WhatsApp *</label><input id="fp" type="tel" class="finput w-full rounded-lg px-4 py-3 text-sm" placeholder="+91 XXXXX XXXXX"/></div>
+          <div><label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-medium">Parent Name</label><input type="text" class="finput w-full rounded-lg px-4 py-3 text-sm" placeholder="Parent / Guardian"/></div>
+        </div>
+        <div class="mb-5"><label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-medium">School Name</label><input type="text" class="finput w-full rounded-lg px-4 py-3 text-sm" placeholder="Your school name"/></div>
+        <div class="mb-7"><label class="block text-xs text-gray-400 mb-2 uppercase tracking-wider font-medium">Any Questions?</label><textarea class="finput w-full rounded-lg px-4 py-3 text-sm h-24 resize-none" placeholder="Anything you'd like to ask…"></textarea></div>
+        <div class="pill px-4 py-3 flex items-center gap-2 mb-5">
+          <svg class="w-4 h-4 text-[#c9a84c] flex-shrink-0" fill="currentColor" viewBox="0 0 20 20"><path fill-rule="evenodd" d="M2.166 4.999A11.954 11.954 0 0010 1.944 11.954 11.954 0 0017.834 5c.11.65.166 1.32.166 2.001 0 5.225-3.34 9.67-8 11.317C5.34 16.67 2 12.225 2 7c0-.682.057-1.35.166-2.001zm11.541 3.708a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/></svg>
+          <span class="text-xs text-[#e8c96d]">Protected by our Refund Guarantee — zero risk to you.</span>
+        </div>
+        <button onclick="submitForm()" class="btn-g w-full py-4 rounded-xl font-semibold tracking-wide text-sm flex items-center justify-center gap-2">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/></svg>
+          Submit Enrolment Request
+        </button>
+      </div>
+      <div id="form-ok" class="hidden text-center py-10">
+        <div class="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-5 text-3xl" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.3)">✅</div>
+        <h3 class="fd text-2xl font-bold text-white mb-3">Request Received!</h3>
+        <p class="text-gray-400 text-sm max-w-sm mx-auto">Thank you! Karthik will contact you within 24 hours to confirm your batch details.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#07090f;border-top:1px solid rgba(201,168,76,.1)" class="py-12 px-5">
+  <div class="max-w-7xl mx-auto">
+    <div class="grid md:grid-cols-3 gap-10 mb-10">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 rounded-lg btn-g flex items-center justify-center fd font-bold text-[#0b1120]">JK</div>
+          <div><p class="fd font-bold text-white">JK Academy</p><p class="fm text-[9px] tracking-widest text-[#c9a84c] uppercase">Accountancy Excellence</p></div>
+        </div>
+        <p class="text-gray-500 text-sm leading-relaxed">Specialised Accountancy coaching for Class 11 &amp; 12 under the Tamil Nadu Matriculation Board syllabus.</p>
+      </div>
+      <div>
+        <p class="font-semibold text-white mb-4 text-sm">Quick Links</p>
+        <ul class="space-y-2">
+          <li><a href="#about"      class="text-sm text-gray-500 hover:text-[#c9a84c] transition-colors">About</a></li>
+          <li><a href="#features"   class="text-sm text-gray-500 hover:text-[#c9a84c] transition-colors">Why JK Academy</a></li>
+          <li><a href="#schedule"   class="text-sm text-gray-500 hover:text-[#c9a84c] transition-colors">Schedule</a></li>
+          <li><a href="#instructor" class="text-sm text-gray-500 hover:text-[#c9a84c] transition-colors">Instructor</a></li>
+          <li><a href="#syllabus"   class="text-sm text-gray-500 hover:text-[#c9a84c] transition-colors">Syllabus</a></li>
+          <li><a href="#refund"     class="text-sm text-gray-500 hover:text-[#c9a84c] transition-colors">Refund Policy</a></li>
+          <li><a href="#enroll"     class="text-sm text-gray-500 hover:text-[#c9a84c] transition-colors">Enrol Now</a></li>
+        </ul>
+      </div>
+      <div>
+        <p class="font-semibold text-white mb-4 text-sm">Contact Karthik J</p>
+        <ul class="space-y-3">
+          <li class="flex items-center gap-2 text-sm text-gray-500"><span class="text-[#c9a84c]">📧</span><a href="mailto:karthikj1198@gmail.com" class="hover:text-[#c9a84c] transition-colors">karthikj1198@gmail.com</a></li>
+          <li class="flex items-center gap-2 text-sm text-gray-500"><span class="text-[#c9a84c]">🎓</span>M.Com · Accounts Executive (3 yrs)</li>
+          <li class="flex items-center gap-2 text-sm text-gray-500"><span class="text-[#c9a84c]">📍</span>Tamil Nadu, India</li>
+          <li class="flex items-center gap-2 text-sm text-gray-500"><span class="text-[#c9a84c]">🎥</span><a href="https://meet.google.com/qtb-sxrf-sfh" target="_blank" class="hover:text-[#c9a84c] transition-colors">Google Meet · Every Sunday 9 AM</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="gline mb-6"></div>
+    <div class="flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-gray-600 text-xs">© 2026 JK Academy. All rights reserved.</p>
+      <div class="pill px-3 py-1.5 flex items-center gap-2"><span class="text-[#c9a84c] text-xs">🛡️</span><span class="fm text-[10px] text-[#c9a84c] tracking-wider">REFUND GUARANTEED · WORDS KEPT</span></div>
+    </div>
+  </div>
+</footer>
+
+<!-- CALENDAR MODAL -->
+<div id="cal-modal">
+  <div class="absolute inset-0" style="background:rgba(0,0,0,.75);backdrop-filter:blur(6px)" onclick="closeCal()"></div>
+  <div class="relative card rounded-2xl w-full max-w-md shadow-2xl overflow-hidden" style="border-color:rgba(201,168,76,.35)">
+    <div class="flex items-center gap-3 px-6 py-4 border-b border-[#c9a84c]/15" style="background:rgba(201,168,76,.08)">
+      <span class="text-2xl">📅</span>
+      <div><p class="fd font-bold text-white text-lg">Sunday Class Schedule</p><p class="fm text-xs text-[#c9a84c]">Every Sunday · 9:00 AM – 2:00 PM</p></div>
+      <button onclick="closeCal()" class="ml-auto w-8 h-8 rounded-lg flex items-center justify-center text-gray-400 hover:text-white hover:bg-white/10 transition-colors text-lg leading-none">✕</button>
+    </div>
+    <div class="p-5">
+      <div class="flex items-center justify-between mb-4">
+        <button onclick="prevM()" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-colors text-xl leading-none">‹</button>
+        <p class="fd font-bold text-white text-lg" id="cal-lbl"></p>
+        <button onclick="nextM()" class="w-8 h-8 rounded-lg bg-white/5 hover:bg-white/10 flex items-center justify-center text-gray-300 hover:text-white transition-colors text-xl leading-none">›</button>
+      </div>
+      <div class="grid grid-cols-7 gap-1 mb-2 text-center">
+        <div class="text-xs text-[#c9a84c] font-bold py-1">Sun</div>
+        <div class="text-xs text-gray-500 py-1">Mon</div>
+        <div class="text-xs text-gray-500 py-1">Tue</div>
+        <div class="text-xs text-gray-500 py-1">Wed</div>
+        <div class="text-xs text-gray-500 py-1">Thu</div>
+        <div class="text-xs text-gray-500 py-1">Fri</div>
+        <div class="text-xs text-gray-500 py-1">Sat</div>
+      </div>
+      <div class="grid grid-cols-7 gap-1" id="cal-grid"></div>
+      <div class="flex items-center gap-5 mt-4 pt-4 border-t border-white/5">
+        <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded-sm" style="background:rgba(201,168,76,.85)"></div><span class="text-xs text-gray-400">Class Day — click to join</span></div>
+        <div class="flex items-center gap-1.5"><div class="w-3 h-3 rounded-sm bg-white/15 ring-1 ring-white/30"></div><span class="text-xs text-gray-400">Today</span></div>
+      </div>
+    </div>
+    <div class="mx-5 mb-5 p-4 rounded-xl" style="background:rgba(201,168,76,.06);border:1px solid rgba(201,168,76,.2)">
+      <div class="flex items-center gap-3 mb-3">
+        <div class="w-9 h-9 rounded-lg bg-white flex items-center justify-center flex-shrink-0">
+          <svg viewBox="0 0 48 48" class="w-5 h-5"><path fill="#EA4335" d="M32 10H16a6 6 0 00-6 6v16a6 6 0 006 6h16a6 6 0 006-6V16a6 6 0 00-6-6z"/><path fill="#34A853" d="M38 16l8-6v28l-8-6V16z"/><path fill="#4285F4" d="M16 10h16v28H16z"/><path fill="#FBBC05" d="M10 22h28v4H10z" opacity=".25"/></svg>
+        </div>
+        <div><p class="text-white text-sm font-semibold">Google Meet — JK Academy</p><p class="text-gray-400 text-xs">Every Sunday · 9:00 AM – 2:00 PM</p></div>
+      </div>
+      <a href="https://meet.google.com/qtb-sxrf-sfh" target="_blank" class="btn-g w-full py-3 rounded-lg text-sm font-semibold flex items-center justify-center gap-2">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 10l4.553-2.069A1 1 0 0121 8.87v6.26a1 1 0 01-1.447.894L15 14M5 18h8a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v8a2 2 0 002 2z"/></svg>
+        Join Meet · meet.google.com/qtb-sxrf-sfh
+      </a>
+    </div>
+  </div>
+</div>
+
+<!-- SCRIPTS -->
+<script>
+// Nav shadow
+window.addEventListener('scroll',()=>{ document.getElementById('nav').style.boxShadow=scrollY>50?'0 4px 28px rgba(0,0,0,.45)':'none'; });
+
+// Mobile menu
+function toggleMob(){ document.getElementById('mob-menu').classList.toggle('open'); }
+
+// Scroll reveal
+const ro=new IntersectionObserver(e=>e.forEach(x=>{if(x.isIntersecting)x.target.classList.add('in');}),{threshold:.08});
+document.querySelectorAll('.reveal').forEach(el=>ro.observe(el));
+
+// Syllabus tabs
+function switchTab(n){
+  document.getElementById('syl11').classList.toggle('hidden',n!==11);
+  document.getElementById('syl12').classList.toggle('hidden',n!==12);
+  const on='px-7 py-2.5 rounded-lg text-sm font-semibold transition-all btn-g';
+  const off='px-7 py-2.5 rounded-lg text-sm font-semibold transition-all text-gray-400 hover:text-white';
+  document.getElementById('tab11').className=n===11?on:off;
+  document.getElementById('tab12').className=n===12?on:off;
+}
+
+// FAQ
+const faqs=[
+  {q:"Who is this course designed for?",a:"Class 11 and 12 students studying Accountancy under the Tamil Nadu State Board Matriculation (Samacheer Kalvi) syllabus. Both fresh starters and students who want to strengthen their understanding are welcome."},
+  {q:"What are the class days and timings?",a:"Classes run every Sunday from 9:00 AM to 2:00 PM (5 hours total, including a short break at 10:30 AM and a lunch break at 12:30 PM), leaving your entire school week free."},
+  {q:"How do I attend the online class?",a:"All sessions are via Google Meet. The permanent link is meet.google.com/qtb-sxrf-sfh — just click it on Sunday morning. No software installation required."},
+  {q:"How does the refund policy work?",a:"If JK Academy fails on any commitment (cancelled classes, syllabus gaps, unnotified schedule changes), you get a refund. You must have scored ≥90% in all weekly assessments to be eligible. You may also exit after the first or second class for a full refund."},
+  {q:"Is the syllabus 100% aligned to the TN Board?",a:"Yes. Every chapter follows the Samacheer Kalvi TN State Board curriculum — 14 chapters for Class 11 and 10 chapters for Class 12 Accountancy."},
+  {q:"How can I contact Karthik J?",a:"Email karthikj1198@gmail.com — Karthik responds within a few hours and is happy to answer any pre-enrolment questions about the batch, schedule, or syllabus."}
+];
+const fl=document.getElementById('faq-list');
+faqs.forEach((f,i)=>{
+  const d=document.createElement('div');
+  d.className='card rounded-xl overflow-hidden';
+  d.innerHTML=`<button onclick="tFaq(${i})" class="w-full flex items-center justify-between px-6 py-5 text-left gap-4 hover:bg-white/[0.02] transition-colors"><span class="font-medium text-white text-sm">${f.q}</span><span id="fi${i}" class="text-[#c9a84c] text-xl flex-shrink-0" style="transition:transform .3s">+</span></button><div id="fb${i}" class="acc-body"><p class="px-6 pb-5 text-sm text-gray-400 leading-relaxed">${f.a}</p></div>`;
+  fl.appendChild(d);
+});
+function tFaq(i){
+  document.querySelectorAll('.acc-body').forEach((b,j)=>{
+    const open=j===i&&!b.classList.contains('open');
+    b.classList.toggle('open',open);
+    document.getElementById('fi'+j).style.transform=open?'rotate(45deg)':'rotate(0deg)';
+  });
+}
+
+// Form
+function submitForm(){
+  const n=document.getElementById('fn').value.trim();
+  const c=document.getElementById('fc').value;
+  const p=document.getElementById('fp').value.trim();
+  if(!n||!c||!p){alert('Please fill in Name, Class, and Phone number.');return;}
+  document.getElementById('form-wrap').classList.add('hidden');
+  document.getElementById('form-ok').classList.remove('hidden');
+  document.getElementById('form-ok').scrollIntoView({behavior:'smooth',block:'center'});
+}
+
+// Calendar
+const today=new Date();
+let cy=today.getFullYear(),cm=today.getMonth();
+const MO=['January','February','March','April','May','June','July','August','September','October','November','December'];
+
+function openCal(){cy=today.getFullYear();cm=today.getMonth();renderCal();document.getElementById('cal-modal').classList.add('open');document.body.style.overflow='hidden';}
+function closeCal(){document.getElementById('cal-modal').classList.remove('open');document.body.style.overflow='';}
+function prevM(){cm--;if(cm<0){cm=11;cy--;}renderCal();}
+function nextM(){cm++;if(cm>11){cm=0;cy++;}renderCal();}
+
+function renderCal(){
+  document.getElementById('cal-lbl').textContent=MO[cm]+' '+cy;
+  const grid=document.getElementById('cal-grid');
+  grid.innerHTML='';
+  const firstDow=new Date(cy,cm,1).getDay();
+  const days=new Date(cy,cm+1,0).getDate();
+  const todayMid=new Date(today.getFullYear(),today.getMonth(),today.getDate());
+  for(let i=0;i<firstDow;i++){const e=document.createElement('div');e.className='h-9';grid.appendChild(e);}
+  for(let d=1;d<=days;d++){
+    const date=new Date(cy,cm,d);
+    const isSun=date.getDay()===0;
+    const isPast=date<todayMid;
+    const isToday=d===today.getDate()&&cm===today.getMonth()&&cy===today.getFullYear();
+    const cell=document.createElement('div');
+    cell.className='h-9 flex items-center justify-center rounded-lg text-xs font-medium select-none transition-all';
+    cell.textContent=d;
+    if(isSun&&!isPast){
+      cell.style.cssText='background:rgba(201,168,76,.82);color:#0b1120;font-weight:700;cursor:pointer';
+      cell.title='Sunday Class — 9:00 AM to 2:00 PM · Click to join Google Meet';
+      cell.onmouseenter=()=>{cell.style.background='#c9a84c';};
+      cell.onmouseleave=()=>{cell.style.background='rgba(201,168,76,.82)';};
+      cell.onclick=()=>window.open('https://meet.google.com/qtb-sxrf-sfh','_blank');
+    }else if(isSun&&isPast){
+      cell.style.cssText='background:rgba(201,168,76,.1);color:rgba(201,168,76,.3);text-decoration:line-through;cursor:not-allowed';
+    }else if(isPast){
+      cell.style.color='#374151';
+    }else{
+      cell.style.color='#6b7280';
+    }
+    if(isToday){cell.style.outline='2px solid rgba(255,255,255,.35)';cell.style.outlineOffset='1px';}
+    grid.appendChild(cell);
+  }
+}
+document.addEventListener('keydown',e=>{if(e.key==='Escape')closeCal();});
+</script>
+</body>
+</html>
